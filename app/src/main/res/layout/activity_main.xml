@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fillViewport="true"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/enter_btn"
+            android:text="@string/edit_text"
+            style="@style/Button"
+            android:layout_gravity="center"
+            android:onClick="enterText"/>
+
+        <TextView
+            android:id="@+id/txt"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:gravity="center_horizontal"
+            android:padding="15dp"
+            android:paddingTop="20dp"
+            android:textSize="20sp"
+            android:background="#fce4ec"
+            android:scrollbars="vertical"/>
+
+        <Button
+            android:id="@+id/send_btn"
+            android:text="@string/send"
+            style="@style/Button"
+            android:enabled="false"
+            android:layout_gravity="center"
+            android:onClick="newEmail" />
+
+    </LinearLayout>
+
+</ScrollView>

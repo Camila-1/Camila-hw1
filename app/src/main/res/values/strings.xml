@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Camila-hw1</string>
+    <string name="edit_text">edit text</string>
+    <string name="send">send</string>
+    <string name="save">save</string>
+</resources>
