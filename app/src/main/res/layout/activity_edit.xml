@@ -26,7 +26,6 @@
             android:id="@+id/save_btn"
             style="@style/Button"
             android:text="@string/save"
-            android:onClick="save"
             android:layout_gravity="center"/>
 
     </LinearLayout>

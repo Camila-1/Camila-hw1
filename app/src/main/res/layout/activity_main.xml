@@ -18,8 +18,7 @@
             android:id="@+id/enter_btn"
             android:text="@string/edit_text"
             style="@style/Button"
-            android:layout_gravity="center"
-            android:onClick="enterText"/>
+            android:layout_gravity="center"/>
 
         <TextView
             android:id="@+id/txt"
@@ -37,8 +36,7 @@
             android:text="@string/send"
             style="@style/Button"
             android:enabled="false"
-            android:layout_gravity="center"
-            android:onClick="newEmail" />
+            android:layout_gravity="center"/>
 
     </LinearLayout>
 

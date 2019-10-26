@@ -8,50 +8,55 @@ import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.Gravity
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
-import com.crashlytics.android.Crashlytics
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : AppCompatActivity(), View.OnClickListener {
+    companion object{
+        private const val REQUEST_CODE = 1
+        private const val MAIN_ACTIVITY_KEY = "textFromMainActivity"
+        private const val EDIT_ACTIVITY_KEY = "textFromEditActivity"
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val textView: TextView = findViewById(R.id.txt)
-        textView.movementMethod = ScrollingMovementMethod()
+        txt.movementMethod = ScrollingMovementMethod()
+        send_btn.setOnClickListener(this)
+        enter_btn.setOnClickListener(this)
     }
 
-    fun enterText(@Suppress("UNUSED_PARAMETER") view: View) {
-        val textView: TextView = findViewById(R.id.txt)
+    override fun onClick(view: View?) {
+        when(view) {
+            send_btn -> newEmail()
+            enter_btn -> enterText()
+        }
+    }
+
+    private fun enterText() {
         val intent = Intent(this, EditActivity::class.java)
-        intent.putExtra("textFromMainActivity", textView.text.toString())
-        startActivityForResult(intent, 1)
+        intent.putExtra(MAIN_ACTIVITY_KEY, txt.text.toString())
+        startActivityForResult(intent, REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if(resultCode != Activity.RESULT_OK) return
-        val textView: TextView = findViewById(R.id.txt)
-        textView.text = data?.extras?.getString("textFromEditActivity")
-        val sendButton: Button = findViewById(R.id.send_btn)
-        sendButton.isEnabled = textView.text.isNotEmpty()
+        if(requestCode != REQUEST_CODE && resultCode != Activity.RESULT_OK) return
 
+        txt.text = data?.extras?.getString(EDIT_ACTIVITY_KEY)
+        send_btn.isEnabled = txt.text.isNotEmpty()
     }
 
-    fun newEmail(@Suppress("UNUSED_PARAMETER") view: View) {
-        val textView: TextView = findViewById(R.id.txt)
-
+    private fun newEmail() {
         val intent = Intent(Intent.ACTION_SENDTO).apply {
             data = Uri.parse("mailto:")
-            putExtra(Intent.EXTRA_SUBJECT, "Subject")
-            putExtra(Intent.EXTRA_TEXT, textView.text.toString())
+            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject))
+            putExtra(Intent.EXTRA_TEXT, txt.text.toString())
         }
         if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
         } else {
-            val toast: Toast = Toast.makeText(applicationContext, "email app not found", Toast.LENGTH_SHORT)
+            val toast: Toast = Toast.makeText(applicationContext, getString(R.string.toast), Toast.LENGTH_SHORT)
             toast.setGravity(Gravity.CENTER, 0, 0)
             toast.show()
         }

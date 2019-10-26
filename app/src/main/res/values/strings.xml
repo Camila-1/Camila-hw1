@@ -3,4 +3,6 @@
     <string name="edit_text">edit text</string>
     <string name="send">send</string>
     <string name="save">save</string>
+    <string name="subject">Subject</string>
+    <string name="toast">email app not found</string>
 </resources>

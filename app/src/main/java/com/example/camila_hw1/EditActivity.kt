@@ -7,37 +7,40 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import androidx.core.os.bundleOf
-import com.example.camila_hw1.R.id.text_edit
+import kotlinx.android.synthetic.main.activity_edit.*
 
-class EditActivity : AppCompatActivity() {
+class EditActivity : AppCompatActivity(), View.OnClickListener {
+    companion object{
+        private const val EDIT_ACTIVITY_KEY = "textFromEditActivity"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
-        val editText: EditText = findViewById(text_edit)
-        editText.setText(intent.extras?.getString("textFromMainActivity"))
-        val saveButton: Button = findViewById(R.id.save_btn)
-        saveButton.isEnabled = editText.text.isNotEmpty()
+        text_edit.setText(intent.extras?.getString("textFromMainActivity"))
+        save_btn.setOnClickListener(this)
+        save_btn.isEnabled = text_edit.text.isNotEmpty()
 
-        editText.addTextChangedListener(object : TextWatcher {
+        text_edit.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                saveButton.isEnabled = s?.isNotEmpty() ?: false
+                save_btn.isEnabled = s?.isNotEmpty() ?: false
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
     }
 
+    override fun onClick(view: View?) {
+        when(view) {
+            save_btn -> save()
+        }
+    }
 
-    fun save(@Suppress("UNUSED_PARAMETER") view: View) {
-        val editText: EditText = findViewById(text_edit)
+
+    private fun save() {
         val intent = Intent()
-        intent.putExtra("textFromEditActivity", editText.text.toString())
+        intent.putExtra(EDIT_ACTIVITY_KEY, text_edit.text.toString())
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
